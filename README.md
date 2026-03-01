@@ -1,4 +1,3 @@
-Here is the updated `README.md` for your project, including **Grafana** alongside Prometheus, and reflecting the full MLOps stack identified in your codebase.
 
 ---
 
