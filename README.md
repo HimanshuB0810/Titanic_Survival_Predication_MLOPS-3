@@ -1,45 +1,88 @@
-Overview
-========
+Here is the updated `README.md` for your project, including **Grafana** alongside Prometheus, and reflecting the full MLOps stack identified in your codebase.
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+---
 
-Project Contents
-================
+# Titanic Survival Prediction MLOps Project
 
-Your Astro project contains the following files and folders:
+This project implements an end-to-end MLOps pipeline for predicting passenger survival on the Titanic. It integrates automated data ingestion, orchestration with Airflow, drift detection with Alibi, and a comprehensive monitoring stack using Prometheus and Grafana.
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## 🚀 Features
 
-Deploy Your Project Locally
-===========================
+* **Automated Pipeline**: End-to-end training pipeline from data ingestion to model training.
+* **Orchestration**: Managed workflows using Apache Airflow and Astronomer for data extraction and processing.
+* **Storage & Feature Store**: Integration with MinIO for S3-compatible object storage and Redis for low-latency feature serving.
+* **Web Interface**: A Flask-based web application for user-friendly survival predictions.
+* **Advanced Monitoring**: Integrated Prometheus for metric collection and **Grafana** for real-time visualization.
+* **Drift Detection**: Implements Kolmogorov-Smirnov (KS) drift detection using the `alibi-detect` library.
 
-Start Airflow on your local machine by running 'astro dev start'.
+## 🏗️ Project Structure
 
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
+```text
+├── artifacts/              # Data and trained model binaries (.pkl)
+├── config/                 # Configuration for paths and databases
+├── dags/                   # Airflow DAGs for data extraction and orchestration
+├── notebook/               # Jupyter notebooks for EDA and experimentation
+├── pipeline/               # Training pipeline scripts
+├── src/                    # Core source code (Ingestion, Processing, Training)
+├── static/ & templates/    # Frontend files for the Flask application
+├── application.py          # Flask entry point with drift detection
+├── docker-compose.yml      # Docker multi-container setup (Monitoring, Storage)
+└── prometheus.yml          # Prometheus configuration
 
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+```
 
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
+## 🛠️ Tech Stack
 
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+* **Language**: Python 3.x
+* **ML & Analytics**: Scikit-Learn, Alibi-detect
+* **Web Framework**: Flask
+* **Orchestration**: Apache Airflow / Astronomer
+* **Data & Storage**: MinIO, Redis
+* **Monitoring & Visualization**: Prometheus, **Grafana**
+* **DevOps**: Docker & Docker Compose
 
-Deploy Your Project to Astronomer
-=================================
+## 🚦 Getting Started
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+### Prerequisites
 
-Contact
-=======
+* Docker and Docker Compose
+* Astronomer CLI (optional, for Airflow management)
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+### Installation & Setup
+
+1. **Clone the Repository**:
+```bash
+git clone <repository-url>
+cd titanic_survival_predication_mlops-3
+
+```
+
+
+2. **Start Services with Docker**:
+Launch the entire stack (Airflow, MinIO, Prometheus, Grafana, and the Flask app):
+```bash
+docker-compose up -d
+
+```
+
+
+3. **Access the Components**:
+* **Web App**: `http://localhost:5000`
+* **Grafana Dashboard**: `http://localhost:3000`
+* **Prometheus**: `http://localhost:9090`
+* **Airflow UI**: `http://localhost:8080`
+* **MinIO**: `http://localhost:9000`
+
+
+
+## 📊 Monitoring & Visualization
+
+* **Prometheus**: Scrapes system metrics and model performance data as defined in `prometheus.yml`.
+* **Grafana**: Connects to Prometheus as a data source to provide visual dashboards for monitoring model health, resource usage, and drift detection alerts.
+
+## 🔄 Pipeline Workflow
+
+1. **Data Ingestion**: Data is pulled from source and stored in MinIO.
+2. **Processing**: Raw data is cleaned and features are stored in the Redis Feature Store.
+3. **Training**: A Random Forest model is trained and saved to `artifacts/models/`.
+4. **Deployment**: The Flask app loads the model and monitors for data drift using `KSDrift`.
