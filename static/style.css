@@ -1,0 +1,190 @@
+:root {
+            --gold-bright: #fceabb;
+            --gold-main: #d4af37;
+            --gold-dark: #785d11;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000c1d;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- CINEMATIC BACKGROUND --- */
+        .ocean-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 50%, #002e5d 0%, #000428 100%);
+        }
+
+        .ship-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            filter: brightness(0.7) contrast(1.2);
+            mask-image: radial-gradient(circle, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle, black 30%, transparent 80%);
+        }
+
+        /* --- SHINY GLASS CONTAINER --- */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 50px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5), 
+                        inset 0 0 20px rgba(255,255,255,0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Shine Reflection Effect */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 40px;
+            background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0.1) 50%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-bright);
+            text-align: center;
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            margin-bottom: 5px;
+        }
+
+        .divider {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--gold-main);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(to right, transparent, var(--gold-main), transparent);
+        }
+
+        /* --- SHINY FORM ELEMENTS --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 25px;
+        }
+
+        label {
+            font-size: 0.75rem;
+            color: var(--gold-main);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .full-width { grid-column: span 2; }
+
+        /* --- THE SHINY GOLD BUTTON --- */
+        button {
+            width: 100%;
+            padding: 18px;
+            margin-top: 30px;
+            background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
+            border: 1px solid #785d11;
+            border-radius: 50px;
+            color: #2c1e00;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4), 
+                        0 0 15px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(212, 175, 55, 0.6);
+            filter: brightness(1.1);
+        }
+
+        /* --- RESULTS SECTION --- */
+        .result-container {
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .result-box {
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #fff;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
